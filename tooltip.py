@@ -1,4 +1,4 @@
-# ToolTip widget for Python Tkinter V1.1
+# ToolTip widget for Python Tkinter V1.2
 
 from tkinter import *
 from time import time
@@ -79,7 +79,7 @@ class ToolTip(Toplevel):
                 self.msgVar.set(eval(self.msgFunc))                             # Try to call the message function.Will not change the message if the message function is None or the message function fails
         except:
             pass
-        if self.delay != 0:
+        if self.delay != 0 and self.stime == 0:
             self.after(int((self.delay + 1) * 1000), self.show)
 
     def hide(self, event=None):
@@ -126,7 +126,7 @@ def example():
         text = 'delay=%i\n' % i
         delay = i
         if j >= 2:
-            follow=True
+            follow = True
             text += '+follow\n'
         else:
             follow = False
@@ -134,13 +134,17 @@ def example():
         if j % 2 == 0:
             msg = None
             msgFunc = 'time()'
-            text += 'Message Function'
+            text += 'Message Function\n'
+            stime = 0
+            text += 'stime=0'
         else:
             msg = 'Button at %s' % str((i,j))
             msgFunc = None
-            text += 'Static Message'
+            text += 'Static Message\n'
+            stime = 2
+            text += 'stime=2'
         btnList.append(Button(root, text=text))
-        ToolTip(btnList[-1], msg=msg, msgFunc=msgFunc, follow=follow, delay=delay)
+        ToolTip(btnList[-1], msg=msg, msgFunc=msgFunc, follow=follow, delay=delay, stime=stime)
         btnList[-1].grid(row=i, column=j, sticky=N+S+E+W)
     root.mainloop()
 
